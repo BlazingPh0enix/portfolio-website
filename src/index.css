@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { font-family: theme('fontFamily.mono'); }
+
+.terminal-scrollbar::-webkit-scrollbar { width: 6px; }
+.terminal-scrollbar::-webkit-scrollbar-track { background: #0a0a0a; }
+.terminal-scrollbar::-webkit-scrollbar-thumb { background: #222; }

@@ -1,4 +1,22 @@
-# Dependencies
+node_modules/
+dist/
+.vite/
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.env*
+.eslintcache
+coverage/
+.turbo
+.parcel-cache
+.cache
+.vercel
+.netlify
+vite.svg# Dependencies
 node_modules/
 package-lock.json
 yarn.lock
