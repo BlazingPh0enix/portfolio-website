@@ -3,6 +3,7 @@ import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useKeyboardControls } from '../../hooks/useKeyboardControls';
 import { useStore } from '../../store/useStore';
+import { COLLIDERS } from '../../data/districts';
 
 const SPEED = 5; // units per second
 const CLICK_EPS = 0.1;
@@ -44,12 +45,19 @@ export const HybridController: React.FC = () => {
     if (keys.current['KeyA'] || keys.current['ArrowLeft']) dir.x -= 1;
     if (keys.current['KeyD'] || keys.current['ArrowRight']) dir.x += 1;
 
+    // Joystick input
+    const joystick = useStore.getState().joystickInput;
+    if (joystick.x !== 0 || joystick.y !== 0) {
+      dir.x += joystick.x;
+      dir.z += joystick.y;
+    }
+
     const p = tmpVec.set(playerPos[0], playerPos[1], playerPos[2]);
 
     if (dir.lengthSq() > 0) {
       dir.normalize().multiplyScalar(SPEED * dt);
       p.add(dir);
-      // clicking target is overridden while using keyboard
+      // clicking target is overridden while using keyboard/joystick
       targetRef.current.copy(p);
     } else {
       // Click-to-move: move towards target
@@ -58,6 +66,24 @@ export const HybridController: React.FC = () => {
       if (dist > CLICK_EPS) {
         toTarget.normalize().multiplyScalar(Math.min(SPEED * dt, dist));
         p.add(toTarget);
+      }
+    }
+
+    // Collision detection
+    for (const collider of COLLIDERS) {
+      const dx = p.x - collider.position[0];
+      const dz = p.z - collider.position[2];
+      const distSq = dx * dx + dz * dz;
+      const minDist = collider.radius + 0.5; // player radius
+      if (distSq < minDist * minDist) {
+        const dist = Math.sqrt(distSq);
+        const push = minDist - dist;
+        if (dist > 0.001) {
+            const pushX = (dx / dist) * push;
+            const pushZ = (dz / dist) * push;
+            p.x += pushX;
+            p.z += pushZ;
+        }
       }
     }
 
