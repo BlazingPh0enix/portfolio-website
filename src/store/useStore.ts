@@ -5,21 +5,25 @@ export type LocationKey = 'DISTRICT_A' | 'DISTRICT_B' | 'DISTRICT_C' | 'NEXUS_LA
 interface AppState {
   currentLocation: LocationKey;
   isTerminalOpen: boolean;
+  playerPosition: [number, number, number];
   setLocation: (loc: LocationKey) => void;
   toggleTerminal: () => void;
   openTerminal: () => void;
   closeTerminal: () => void;
   lastCommand: string | null;
   setLastCommand: (cmd: string | null) => void;
+  setPlayerPosition: (pos: [number, number, number]) => void;
 }
 
 export const useStore = create<AppState>((set) => ({
   currentLocation: 'DISTRICT_C',
   isTerminalOpen: true,
+  playerPosition: [0, 0, 0],
   lastCommand: null,
   setLocation: (loc) => set({ currentLocation: loc }),
   toggleTerminal: () => set(s => ({ isTerminalOpen: !s.isTerminalOpen })),
   openTerminal: () => set({ isTerminalOpen: true }),
   closeTerminal: () => set({ isTerminalOpen: false }),
-  setLastCommand: (cmd) => set({ lastCommand: cmd })
+  setLastCommand: (cmd) => set({ lastCommand: cmd }),
+  setPlayerPosition: (pos) => set({ playerPosition: pos })
 }));
