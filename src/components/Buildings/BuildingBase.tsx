@@ -23,15 +23,15 @@ export const BuildingBase: React.FC<Props> = ({ audio, scale = 1, ...props }) =>
         <meshStandardMaterial emissive="#00ffff" emissiveIntensity={2} color="#020b0f" toneMapped={false} />
       </mesh>
 
-      {/* Positional audio placeholder */}
-      {audio && (
+      {/* Positional audio placeholder - Commented out until files exist to prevent crash */}
+      {/* {audio && (
         <PositionalAudio
           url={audio}
           distance={15}
           autoplay={false}
           loop={false}
         />
-      )}
+      )} */}
     </group>
   );
 };
