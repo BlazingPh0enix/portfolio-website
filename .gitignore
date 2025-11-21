@@ -16,7 +16,9 @@ coverage/
 .cache
 .vercel
 .netlify
-vite.svg# Dependencies
+vite.svg
+
+# Dependencies
 node_modules/
 package-lock.json
 yarn.lock
